@@ -23,7 +23,7 @@ def remove_punctuation(text):
     return unicode(filter(lambda x: x in string.punctuation, text))
 
 
-def remove_numbers(text):
+def remove_digits(text):
     """
     Remove digits from the input string
 
@@ -49,9 +49,33 @@ def remove_nonprintable_chars(text):
     text : input unicode str
 
     Returns:
+    --------
     processed_text : unicode str after nonprintable chars removal
 
     """
 
     return unicode(filter(lambda x: x in string.printable, text))
+
+
+def sanitize(text, nonprintable=True, punctuation=True, digits=False):
+    """
+    It gets a text input and removes invalid symbols, punctuation and digits from it
+
+    Parameters:
+    -----------
+    text : input unicode str
+
+    Returns:
+    --------
+    processed_text : unicode str after sanitization process
+
+    """
+    if nonprintable:
+        text = remove_nonprintable_chars(text)
+    if punctuation:
+        text = remove_punctuation(text)
+    if digits:
+        text = remove_digits(text)
+
+    return unicode(text)
 
