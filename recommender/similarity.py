@@ -4,7 +4,7 @@
 # License:
 
 import numpy as np
-
+from scipy.spatial import distance
 
 def cosine_similarity(x, y):
     """
@@ -28,3 +28,10 @@ def cosine_similarity(x, y):
     x = np.sqrt(sum([n**2 for n in x]))
     y = np.sqrt(sum([n**2 for n in y]))
     return xy / (x*y)
+
+def cosine_distance(X, axis=0):
+    X = X.T if axis==1 else X
+    rows, cols = X.shape
+    similarities = [distance.cdist(X, X[row, :].reshape(1,-1), 'cosine') for row in xrange(rows)]
+    return np.hstack(similarities)
+

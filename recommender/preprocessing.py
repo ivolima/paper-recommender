@@ -79,3 +79,6 @@ def sanitize(text, nonprintable=True, punctuation=True, digits=False):
 
     return unicode(text)
 
+
+def remove_stopwords():
+    pass

@@ -9,19 +9,26 @@ from bs4 import BeautifulSoup
 class Parser(object):
 
     def __init__(self, doc_path):
-        self.doc = BeautifulSoup(open(doc_path))
+        self.__doc = BeautifulSoup(open(doc_path))
+        #self.html = self.__doc.html
 
     def parse_title(self):
-        return self.doc.find(id="article_title").text
+        title = unicode(self.__doc.find(id="article_title").text)
+        return title.encode('utf-8').strip()
 
     def parse_authors(self, join_authors=True):
-        authors = self.doc.select("a.author")
-        authors = [a.text for a in authors]
-
-        if join_authors:
-            authors = " ",join(authors)
-        return authors
+        authors = self.__doc.select("a.author")
+        if authors:
+            authors = [unicode(a.text) for a in authors]
+            if join_authors:
+                authors = u" ".join(authors).encode('utf-8').strip()
+            return authors
+        return ""
 
     def parse_abstract(self):
-        return self.doc.find(id="blockquote").text
+        abstract = self.__doc.select("#abstract-body")
+        if abstract:
+            return abstract[0].text.encode('utf-8').strip()
+        return ""
+        #return self.__doc.find(id="abstract-body").text
 
